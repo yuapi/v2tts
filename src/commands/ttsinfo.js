@@ -18,6 +18,7 @@ export default {
       .addFields(
         { name: 'TTS 채널', value: channelText, inline: true },
         { name: '화자 ID', value: String(gs.speakerId), inline: true },
+        { name: '말하기 속도', value: String(gs.speed ?? 0.8), inline: true },
       )
       .setFooter({ text: `서버: ${interaction.guild.name}` });
 

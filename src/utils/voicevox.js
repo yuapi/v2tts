@@ -39,8 +39,9 @@ async function synthesis(query, speakerId) {
  * @param {number} speakerId
  * @returns {Promise<Buffer>}
  */
-export async function synthesizeSpeech(text, speakerId) {
+export async function synthesizeSpeech(text, speakerId, speed=0.8) {
   const query = await audioQuery(text, speakerId);
+  query.speedScale = speed;
   return synthesis(query, speakerId);
 }
 

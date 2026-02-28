@@ -51,7 +51,8 @@ export default {
     }
 
     try {
-      const wavBuffer = await synthesizeSpeech(text, gs.speakerId);
+      const speed = gs.speed ?? 1.0;
+      const wavBuffer = await synthesizeSpeech(text, gs.speakerId, speed);
       enqueue(message.guild.id, connection, wavBuffer);
     } catch (err) {
       console.error('[TTS] 합성 실패:', err.message);

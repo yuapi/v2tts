@@ -29,7 +29,7 @@ function save() {
 
 export function getSettings(guildId) {
   if (!store.has(guildId)) {
-    store.set(guildId, { ttsChannelId: null, speakerId: cfg.defaultSpeakerId });
+    store.set(guildId, { ttsChannelId: null, speakerId: cfg.defaultSpeakerId, speed: cfg.defaultSpeed });
   }
   return store.get(guildId);
 }
@@ -43,6 +43,12 @@ export function setTtsChannel(guildId, channelId) {
 export function setSpeaker(guildId, speakerId) {
   const s = getSettings(guildId);
   s.speakerId = speakerId;
+  save();
+}
+
+export function setSpeed(guildId, speed) {
+  const s = getSettings(guildId);
+  s.speed = speed;
   save();
 }
 
