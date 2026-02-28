@@ -1,4 +1,5 @@
-import { romanize } from '@romanize/korean';
+import koreanRomanizer from '@romanize/korean';
+const romanize = koreanRomanizer.romanize ?? koreanRomanizer;
 import { franc } from 'franc';
 
 /**

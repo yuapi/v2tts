@@ -4,7 +4,7 @@
  */
 import { REST, Routes } from 'discord.js';
 import { readdirSync } from 'fs';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { dirname, join } from 'path';
 import cfg from './config.js';
 
@@ -13,7 +13,7 @@ const commandsPath = join(__dirname, 'commands');
 const commandData = [];
 
 for (const file of readdirSync(commandsPath).filter(f => f.endsWith('.js'))) {
-  const { default: cmd } = await import(join(commandsPath, file));
+  const { default: cmd } = await import(pathToFileURL(join(commandsPath, file)).href);
   commandData.push(cmd.data.toJSON());
 }
 

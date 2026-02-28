@@ -1,7 +1,7 @@
 import { ActivityType } from 'discord.js';
 
 export default {
-  name: 'ready',
+  name: 'clientReady',
   once: true,
   execute(client) {
     console.log(`[Bot] 로그인 완료: ${client.user.tag}`);
