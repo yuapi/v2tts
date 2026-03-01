@@ -6,13 +6,12 @@ import {
 } from '@discordjs/voice';
 import { preprocessText } from '../utils/textProcessor.js';
 import { synthesizeSpeech } from '../utils/voicevox.js';
-import { getSettings } from '../utils/settingsManager.js';
+import { getSettings, getEffectiveSettings } from '../utils/settingsManager.js';
 import { enqueue } from '../utils/ttsQueue.js';
 
 export default {
   name: 'messageCreate',
   async execute(message, client) {
-    // 봇 메시지, DM 무시
     if (message.author.bot || !message.guild) return;
 
     const gs = getSettings(message.guild.id);
@@ -23,7 +22,6 @@ export default {
 
     let connection = getVoiceConnection(message.guild.id);
 
-    // 봇이 음성 채널에 없을 때 → 메시지 발신자 채널로 자동 입장
     if (!connection) {
       const voiceChannel = message.member?.voice?.channel;
       if (!voiceChannel) {
@@ -51,11 +49,11 @@ export default {
     }
 
     try {
-      const speed = gs.speed ?? 1.0;
-      const wavBuffer = await synthesizeSpeech(text, gs.speakerId, speed);
+      const { speakerId, speed } = getEffectiveSettings(message.guild.id, message.author.id);
+      const wavBuffer = await synthesizeSpeech(text, speakerId, speed);
       enqueue(message.guild.id, connection, wavBuffer);
     } catch (err) {
-      console.error('[TTS] 합성 실패:', err.message);
+      console.error('[TTS] 오류:', err);
     }
   },
 };
